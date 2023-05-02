@@ -44,15 +44,10 @@ def crawling_pmlr(url, pkl_path):
         
 def crawling_emnlp(url, pkl_path):
     """
-    Extracts the titles and abstracts of papers from a webpage and saves them as a dictionary in a pickle file.
-
     Args:
         url (str): The URL of the webpage to crawl.
             for example: "https://aclanthology.org/volumes/2022.emnlp-main/"
         pkl_path (str): The path to save the resulting pickle file.
-
-    Raises:
-        ValueError: If the specified pickle file path already exists.
 
     Returns:
         None
