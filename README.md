@@ -6,7 +6,7 @@ This function crawls the titles and corresponding abstracts of papers and saves 
 └── utils
     └── crawling.py
 └── example
-    └── mlm-and-clustering.py
+    └── mlm-and-clustering.ipynb
 ```
 ## usage
 ```python
@@ -28,4 +28,5 @@ crawling_emnlp(url, pkl_path)
 ```
 
 ## application
-* Using BERT and k-means, we can cluster papers as shown in 
+* Using BERT and k-means, we can cluster papers as shown in <span style="color:gray">./example/mlm-and-clustering.ipynb</span>.
+
