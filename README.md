@@ -8,7 +8,7 @@ This function crawls the titles and corresponding abstracts of papers and saves 
 ```
 ## usage
 ```
-crawling.py
+from utils.crawling import *
 ```
 
 ```python
