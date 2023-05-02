@@ -5,6 +5,8 @@ This function crawls the titles and corresponding abstracts of papers and saves 
 ```
 └── utils
     └── crawling.py
+└── example
+    └── mlm-and-clustering.py
 ```
 ## usage
 ```python
@@ -24,3 +26,6 @@ url = "https://aclanthology.org/volumes/2022.emnlp-main/"
 pkl_path = '../data/emnlp2022.pkl'
 crawling_emnlp(url, pkl_path)
 ```
+
+## application
+* Using BERT and k-means, we can cluster papers as shown in 
