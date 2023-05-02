@@ -5,7 +5,7 @@ from tqdm.auto import tqdm
 import pickle
 from pathlib import Path
 
-def crawling_proceedings(url, path):
+def crawling_pmlr(url, pkl_path):
     '''
     Given a URL of a proceeding in PMLR, save the corresponding title and abstract as a pickle file to the specified file path.
 
@@ -17,8 +17,8 @@ def crawling_proceedings(url, path):
         None
     '''
     
-    if Path(path).exists():
-        raise ValueError(f"Pickle already exists at {path}!")
+    if Path(pkl_path).exists():
+        raise ValueError(f"Pickle already exists at {pkl_path}!")
     
     resp = requests.get(url)
     soup = BeautifulSoup(resp.text, 'lxml')
@@ -38,5 +38,47 @@ def crawling_proceedings(url, path):
             a = soup_abs.find_all('div', {"class":"abstract"})[0].text.strip()
             title_abs[t] = a        
             
-    with open(path, 'wb') as f:
+    with open(pkl_path, 'wb') as f:
+        pickle.dump(title_abs, f)
+        
+        
+def crawling_emnlp(url, pkl_path):
+    """
+    Extracts the titles and abstracts of papers from a webpage and saves them as a dictionary in a pickle file.
+
+    Args:
+        url (str): The URL of the webpage to crawl.
+            for example: "https://aclanthology.org/volumes/2022.emnlp-main/"
+        pkl_path (str): The path to save the resulting pickle file.
+
+    Raises:
+        ValueError: If the specified pickle file path already exists.
+
+    Returns:
+        None
+    """
+
+    if Path(pkl_path).exists():
+        raise ValueError(f"Pickle already exists at {pkl_path}!")
+
+    resp = requests.get(url)
+    soup = BeautifulSoup(resp.text, 'lxml')
+    
+    titles, abstracts = [], []
+    for i, item in enumerate(soup.find_all()):
+        if item.get('class') is not None and len(item.get('class'))==1 and "align-middle" in item.get('class'):
+            titles.append(item.text)
+
+        # abstract is not provided some times.
+        if len(titles) - len(abstracts) == 2:
+            del titles[-2]
+
+        if item.get('class') is not None and len(item.get('class'))==3 and {'card-body', 'p-3', 'small'} == set(item.get('class')):
+            abstracts.append(item.text)
+    
+    title_abs = dict()
+    for t, a in tqdm(zip(titles, abstracts)):
+        title_abs[t] = a
+
+    with open(pkl_path, 'wb') as f:
         pickle.dump(title_abs, f)
